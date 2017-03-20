@@ -24,11 +24,35 @@ def create_table():
 def seed_db():
     dataStatement = "INSERT INTO exampleTable VALUES(12444124, '2017-03-19', 'Python', 8)"
     conn.commit()
-    cursor.close()
+    # cursor.close()
+    # conn.close()
 
 
-def createEntry():
+# dummy data at the moment
+def create_record():
 
+    unix = int(time.time())
+    date = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))  # copy/paste from Sentdex
+    keyword = 'avast, matey'
+    value = random.randrange(1, 100)
+
+    sqlStatement = "INSERT INTO exampleTable (unix, datestamp, keyword, value) VALUES (?, ?, ?, ?)"
+    cursor.execute(sqlStatement, (unix, date, keyword, value))
+
+    conn.commit()
+
+
+# run the basic functions
 
 create_table()
+
 seed_db()
+
+for i in range(25):
+    create_record()
+    time.sleep(0.5)  # for datestamp differences
+
+
+# close db connection
+cursor.close()
+conn.close()
